@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>📘 StudyMate — Fast PDF Q&A</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="overlay">
+  <div class="container">
+    <h1>📘 StudyMate — IBM Granite CPU Fast Mode</h1>
+
+    <!-- PDF Upload -->
+    <form id="pdf-form" enctype="multipart/form-data">
+      <input type="file" name="pdf" accept=".pdf">
+      <button type="submit">Upload & Process</button>
+    </form>
+
+    <!-- Status -->
+    <div id="status"></div>
+
+    <!-- Chatbox -->
+    <div id="chatbox"></div>
+
+    <!-- Question Input -->
+    <div class="input-row">
+      <input type="text" id="question" placeholder="Ask a question...">
+      <button id="send">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const form=document.getElementById("pdf-form");
+const statusBox=document.getElementById("status");
+const chatbox=document.getElementById("chatbox");
+const question=document.getElementById("question");
+const sendBtn=document.getElementById("send");
+
+// Handle PDF upload & processing
+form.onsubmit=async e=>{
+  e.preventDefault();
+  statusBox.innerText="⏳ Processing PDF...";
+  const data=new FormData(form);
+  const res=await fetch("/process",{method:"POST",body:data});
+  const j=await res.json();
+  statusBox.innerText=j.message;
+};
+
+// Handle question sending
+sendBtn.onclick=async ()=>{
+  const q=question.value.trim();
+  if(!q) return;
+  addMessage("You",q);
+  question.value="";
+  statusBox.innerText="⏳ Generating answer...";
+  const res=await fetch("/ask",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({question:q})
+  });
+  const j=await res.json();
+  addMessage("StudyMate",j.answer);
+  statusBox.innerText="";
+};
+
+// Add message to chatbox
+function addMessage(sender,text){
+  const div=document.createElement("div");
+  div.className="msg";
+  div.innerHTML=`<strong>${sender}:</strong> ${text}`;
+  chatbox.appendChild(div);
+  chatbox.scrollTop=chatbox.scrollHeight;
+}
+</script>
+</body>
+</html>
