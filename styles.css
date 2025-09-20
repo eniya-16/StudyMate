@@ -1,0 +1,81 @@
+/* Body with background image */
+body {
+  margin:0;
+  padding:0;
+  background: url("my_image.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Overlay to darken background and center content */
+.overlay {
+  background: rgba(128,0,128,0.6); /* purple tint */
+  width:100%; 
+  height:100vh;
+  display:flex; 
+  justify-content:center; 
+  align-items:center;
+}
+
+/* Container */
+.container {
+  width:60%; 
+  max-width:900px;
+  background: rgba(255,255,255,0.95);
+  padding:30px; 
+  border-radius:15px;
+  text-align:center; 
+  color:#4B0082;
+}
+
+/* Chatbox */
+#chatbox {
+  border:2px solid #B266FF;
+  height:450px;
+  overflow-y:auto;
+  margin-top:20px; 
+  padding:15px;
+  background:#F8F0FF;
+  border-radius:12px;
+  text-align:left;
+}
+
+/* Messages */
+.msg{margin-bottom:15px;}
+
+/* Input row */
+.input-row{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+/* Input text */
+input[type="text"]{
+  flex:1;
+  padding:12px;
+  border-radius:8px;
+  border:2px solid #B266FF;
+  font-size:16px;
+}
+
+/* Buttons */
+button{
+  background:#B266FF;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:16px;
+}
+
+button:hover{background:#8A2BE2;}
+
+/* Status */
+#status{
+  margin-top:10px;
+  font-weight:bold;
+  color:white;
+}
